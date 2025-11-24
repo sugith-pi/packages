@@ -29,7 +29,7 @@ dependencies:
     git:
       url: https://github.com/saninthottungal/packages
       path: packages/video_player/video_player_platform_interface
-      ref: d3e2a9d5d8cafe86a67122df08bfa739c550cb90
+      ref: a54537ec1c6d6b9fb36349518786de632f9bc02e
 
 dev_dependencies:
   build_runner: ^2.3.3

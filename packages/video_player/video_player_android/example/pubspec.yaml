@@ -20,6 +20,13 @@ dependencies:
     path: ../
   video_player_platform_interface: ^6.3.0
 
+dependency_overrides:
+  video_player_platform_interface:
+    git:
+      url: https://github.com/sugith-pi/packages
+      path: packages/video_player/video_player_platform_interface
+      ref: a54537ec1c6d6b9fb36349518786de632f9bc02e
+
 dev_dependencies:
   espresso: ^0.4.0
   flutter_test:
