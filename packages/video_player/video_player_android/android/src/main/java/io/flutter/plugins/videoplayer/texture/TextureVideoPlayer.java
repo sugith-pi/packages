@@ -59,10 +59,10 @@ public final class TextureVideoPlayer extends VideoPlayer implements SurfaceProd
         options,
         () -> {
              DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
-                            .setBufferDurationsMs(bufferConfig.getMinBuffer().intValue(),
-                             bufferConfig.getMaxBuffer().intValue(), 
-                             bufferConfig.getBufferForPlayback().intValue(), 
-                             bufferConfig.getBufferForPlaybackAfterRebuffer().intValue())
+                            .setBufferDurationsMs((int) bufferConfig.getMinBuffer(),
+                             (int) bufferConfig.getMaxBuffer(), 
+                             (int) bufferConfig.getBufferForPlayback(), 
+                             (int) bufferConfig.getBufferForPlaybackAfterRebuffer())
                             .build();
           ExoPlayer.Builder builder =
               new ExoPlayer.Builder(context)
