@@ -49,7 +49,7 @@ dependency_overrides:
     git:
       url: https://github.com/sugith-pi/packages
       path: packages/video_player/video_player_platform_interface
-      # ref: d3e2a9d5d8cafe86a67122df08bfa739c550cb90
+      ref: 2e961f4b96f54b63233662f55756c0ae519b8cb3
 
 dev_dependencies:
   flutter_test:
