@@ -553,6 +553,7 @@ class VideoCreationOptions {
   const VideoCreationOptions({
     required this.dataSource,
     required this.viewType,
+    this.bufferConfig = const BufferConfig(),
   });
 
   /// The data source used to create the player.
@@ -560,6 +561,71 @@ class VideoCreationOptions {
 
   /// The type of view to be used for displaying the video player
   final VideoViewType viewType;
+
+  /// buffer config
+  final BufferConfig bufferConfig;
+}
+
+/// Buffer configuration
+class BufferConfig {
+  /// default constructor for Buffer Configuration
+  const BufferConfig({
+    this.androidConfig = const AndroidBufferConfig(),
+    this.darwinBufferConfig = const DarwinBufferConfig(),
+  });
+
+  /// Buffer configuration for android
+  final AndroidBufferConfig androidConfig;
+
+  /// Buffer configuration for ios/macos
+  final DarwinBufferConfig darwinBufferConfig;
+}
+
+/// Buffer configuration for android
+class AndroidBufferConfig {
+  /// default constructor for Buffer configuration for android
+  const AndroidBufferConfig({
+    this.minBuffer = 50000,
+    this.maxBuffer = 50000,
+    this.bufferForPlayback = 2500,
+    this.bufferForPlaybackAfterRebuffer = 5000,
+  });
+
+  ///The minimum duration of media that the player will
+  ///attempt to ensure is buffered at all times, in milliseconds.
+  final int minBuffer;
+
+  /// The maximum duration of media that the player will attempt to buffer, in milliseconds.
+  final int maxBuffer;
+
+  /// The default duration of media that must be buffered for playback
+  /// to start or resume following a user action such as a seek, in milliseconds.
+  final int bufferForPlayback;
+
+  ///The default duration of media that must be buffered for playback to resume after a rebuffer, in milliseconds.
+  ///A rebuffer is defined to be caused by buffer depletion rather than a user action.
+  final int bufferForPlaybackAfterRebuffer;
+}
+
+/// Buffer configuration for Ios/macOS
+class DarwinBufferConfig {
+  /// default constructor for Buffer configuration for Ios/macOS
+  const DarwinBufferConfig({
+    this.preferredPeakBitRate = 0,
+    this.preferredForwardBufferDuration = 0,
+    this.canUseNetworkResourcesForLiveStreamingWhilePaused = false,
+  });
+
+  /// The desired limit, in bits per second, of network bandwidth consumption for this item
+  final double preferredPeakBitRate;
+
+  /// The duration the player should buffer media from the network ahead of
+  /// the playhead to guard against playback disruption.
+  final double preferredForwardBufferDuration;
+
+  /// A Boolean value that indicates whether the player item can use network
+  /// resources to keep the playback state up to date while paused.
+  final bool canUseNetworkResourcesForLiveStreamingWhilePaused;
 }
 
 /// Represents an audio track in a video with its metadata.

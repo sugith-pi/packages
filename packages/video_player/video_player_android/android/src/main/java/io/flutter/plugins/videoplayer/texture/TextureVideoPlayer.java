@@ -8,11 +8,15 @@ import android.content.Context;
 import android.view.Surface;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.VisibleForTesting;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.ExoPlayer;
 import io.flutter.plugins.videoplayer.ExoPlayerEventListener;
+import io.flutter.plugins.videoplayer.Messages;
 import io.flutter.plugins.videoplayer.VideoAsset;
 import io.flutter.plugins.videoplayer.VideoPlayer;
 import io.flutter.plugins.videoplayer.VideoPlayerCallbacks;
@@ -45,13 +49,21 @@ public final class TextureVideoPlayer extends VideoPlayer implements SurfaceProd
       @NonNull VideoPlayerCallbacks events,
       @NonNull SurfaceProducer surfaceProducer,
       @NonNull VideoAsset asset,
-      @NonNull VideoPlayerOptions options) {
+      @NonNull VideoPlayerOptions options,
+      @NonNull Messages.BufferConfigNative bufferConfig
+    ) {
     return new TextureVideoPlayer(
         events,
         surfaceProducer,
         asset.getMediaItem(),
         options,
         () -> {
+             DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
+                            .setBufferDurationsMs(bufferConfig.getMinBuffer().intValue(),
+                             bufferConfig.getMaxBuffer().intValue(), 
+                             bufferConfig.getBufferForPlayback().intValue(), 
+                             bufferConfig.getBufferForPlaybackAfterRebuffer().intValue())
+                            .build();
           ExoPlayer.Builder builder =
               new ExoPlayer.Builder(context)
                   .setMediaSourceFactory(asset.getMediaSourceFactory(context));

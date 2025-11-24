@@ -58,12 +58,42 @@ class PlatformVideoViewCreationParams {
   final int playerId;
 }
 
+class BufferConfigNative {
+  /// default constructor for Buffer configuration for android
+  BufferConfigNative({
+    required this.minBuffer,
+    required this.maxBuffer,
+    required this.bufferForPlayback,
+    required this.bufferForPlaybackAfterRebuffer,
+  });
+
+  ///The minimum duration of media that the player will
+  ///attempt to ensure is buffered at all times, in milliseconds.
+  int minBuffer;
+
+  /// The maximum duration of media that the player will attempt to buffer, in milliseconds.
+  int maxBuffer;
+
+  /// The default duration of media that must be buffered for playback
+  /// to start or resume following a user action such as a seek, in milliseconds.
+  int bufferForPlayback;
+
+  ///The default duration of media that must be buffered for playback to resume after a rebuffer, in milliseconds.
+  ///A rebuffer is defined to be caused by buffer depletion rather than a user action.
+  int bufferForPlaybackAfterRebuffer;
+}
+
 class CreationOptions {
-  CreationOptions({required this.uri, required this.httpHeaders});
+  CreationOptions({
+    required this.uri,
+    required this.httpHeaders,
+    required this.bufferConfig,
+  });
   String uri;
   PlatformVideoFormat? formatHint;
   Map<String, String> httpHeaders;
   String? userAgent;
+  BufferConfigNative bufferConfig;
 }
 
 class TexturePlayerIds {

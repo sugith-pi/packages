@@ -5,12 +5,17 @@
 package io.flutter.plugins.videoplayer.platformview;
 
 import android.content.Context;
+import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.annotation.VisibleForTesting;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.ExoPlayer;
 import io.flutter.plugins.videoplayer.ExoPlayerEventListener;
+import io.flutter.plugins.videoplayer.Messages;
 import io.flutter.plugins.videoplayer.VideoAsset;
 import io.flutter.plugins.videoplayer.VideoPlayer;
 import io.flutter.plugins.videoplayer.VideoPlayerCallbacks;
@@ -45,12 +50,20 @@ public class PlatformViewVideoPlayer extends VideoPlayer {
       @NonNull Context context,
       @NonNull VideoPlayerCallbacks events,
       @NonNull VideoAsset asset,
-      @NonNull VideoPlayerOptions options) {
+      @NonNull VideoPlayerOptions options,
+      @NonNull Messages.BufferConfigNative bufferConfig
+    ) {
     return new PlatformViewVideoPlayer(
         events,
         asset.getMediaItem(),
         options,
         () -> {
+              DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
+                            .setBufferDurationsMs(bufferConfig.getMinBuffer().intValue(), bufferConfig.getMaxBuffer().intValue(), bufferConfig.getBufferForPlayback().intValue(), bufferConfig.getBufferForPlaybackAfterRebuffer().intValue())
+                            .build();
+                    ExoPlayer.Builder builder =
+                            new ExoPlayer.Builder(context).setLoadControl(loadControl)
+                                    .setMediaSourceFactory(asset.getMediaSourceFactory(context));
           ExoPlayer.Builder builder =
               new ExoPlayer.Builder(context)
                   .setMediaSourceFactory(asset.getMediaSourceFactory(context));

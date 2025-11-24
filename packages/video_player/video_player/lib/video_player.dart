@@ -13,15 +13,7 @@ import 'package:video_player_platform_interface/video_player_platform_interface.
 
 import 'src/closed_caption_file.dart';
 
-export 'package:video_player_platform_interface/video_player_platform_interface.dart'
-    show
-        DataSourceType,
-        DurationRange,
-        VideoFormat,
-        VideoPlayerOptions,
-        VideoPlayerWebOptions,
-        VideoPlayerWebOptionsControls,
-        VideoViewType;
+export 'package:video_player_platform_interface/video_player_platform_interface.dart';
 
 export 'src/closed_caption_file.dart';
 
@@ -282,6 +274,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     Future<ClosedCaptionFile>? closedCaptionFile,
     this.videoPlayerOptions,
     this.viewType = VideoViewType.textureView,
+    this.bufferConfig = const BufferConfig(),
   }) : _closedCaptionFileFuture = closedCaptionFile,
        dataSourceType = DataSourceType.asset,
        formatHint = null,
@@ -309,6 +302,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     this.videoPlayerOptions,
     this.httpHeaders = const <String, String>{},
     this.viewType = VideoViewType.textureView,
+    this.bufferConfig = const BufferConfig(),
   }) : _closedCaptionFileFuture = closedCaptionFile,
        dataSourceType = DataSourceType.network,
        package = null,
@@ -330,6 +324,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     this.videoPlayerOptions,
     this.httpHeaders = const <String, String>{},
     this.viewType = VideoViewType.textureView,
+    this.bufferConfig = const BufferConfig(),
   }) : _closedCaptionFileFuture = closedCaptionFile,
        dataSource = url.toString(),
        dataSourceType = DataSourceType.network,
@@ -346,6 +341,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     this.videoPlayerOptions,
     this.httpHeaders = const <String, String>{},
     this.viewType = VideoViewType.textureView,
+    this.bufferConfig = const BufferConfig(),
   }) : _closedCaptionFileFuture = closedCaptionFile,
        dataSource = Uri.file(file.absolute.path).toString(),
        dataSourceType = DataSourceType.file,
@@ -362,6 +358,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     Future<ClosedCaptionFile>? closedCaptionFile,
     this.videoPlayerOptions,
     this.viewType = VideoViewType.textureView,
+    this.bufferConfig = const BufferConfig(),
   }) : assert(
          defaultTargetPlatform == TargetPlatform.android,
          'VideoPlayerController.contentUri is only supported on Android.',
@@ -401,6 +398,9 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   ///
   /// Platforms that do not support the request view type will ignore this.
   final VideoViewType viewType;
+
+  /// buffer config for the playing video
+  final BufferConfig bufferConfig;
 
   Future<ClosedCaptionFile>? _closedCaptionFileFuture;
   ClosedCaptionFile? _closedCaptionFile;
@@ -461,6 +461,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
     final VideoCreationOptions creationOptions = VideoCreationOptions(
       dataSource: dataSourceDescription,
       viewType: viewType,
+      bufferConfig: bufferConfig,
     );
 
     if (videoPlayerOptions?.mixWithOthers != null) {

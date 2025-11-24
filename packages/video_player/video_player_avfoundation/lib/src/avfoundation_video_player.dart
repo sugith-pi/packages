@@ -73,6 +73,7 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
   Future<int?> createWithOptions(VideoCreationOptions options) async {
     final DataSource dataSource = options.dataSource;
     final VideoViewType viewType = options.viewType;
+    final BufferConfigNative config = _getBufferConfig(options);
 
     String? uri;
     switch (dataSource.sourceType) {
@@ -103,6 +104,7 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
     final CreationOptions pigeonCreationOptions = CreationOptions(
       uri: uri,
       httpHeaders: dataSource.httpHeaders,
+      bufferConfig: config,
     );
 
     final int playerId;
@@ -262,6 +264,17 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
     return DurationRange(
       Duration(milliseconds: startMilliseconds),
       Duration(milliseconds: startMilliseconds + durationMilliseconds),
+    );
+  }
+
+  BufferConfigNative _getBufferConfig(VideoCreationOptions options) {
+    final DarwinBufferConfig config = options.bufferConfig.darwinBufferConfig;
+
+    return BufferConfigNative(
+      preferredPeakBitRate: config.preferredPeakBitRate,
+      preferredForwardBufferDuration: config.preferredForwardBufferDuration,
+      canUseNetworkResourcesForLiveStreamingWhilePaused:
+          config.canUseNetworkResourcesForLiveStreamingWhilePaused,
     );
   }
 }
