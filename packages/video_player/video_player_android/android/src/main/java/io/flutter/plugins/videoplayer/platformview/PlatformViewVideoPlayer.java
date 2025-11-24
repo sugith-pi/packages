@@ -15,7 +15,7 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.ExoPlayer;
 import io.flutter.plugins.videoplayer.ExoPlayerEventListener;
-import io.flutter.plugins.videoplayer.Messages;
+import io.flutter.plugins.videoplayer.BufferConfigNative;
 import io.flutter.plugins.videoplayer.VideoAsset;
 import io.flutter.plugins.videoplayer.VideoPlayer;
 import io.flutter.plugins.videoplayer.VideoPlayerCallbacks;
@@ -51,7 +51,7 @@ public class PlatformViewVideoPlayer extends VideoPlayer {
       @NonNull VideoPlayerCallbacks events,
       @NonNull VideoAsset asset,
       @NonNull VideoPlayerOptions options,
-      @NonNull Messages.BufferConfigNative bufferConfig
+      @NonNull BufferConfigNative bufferConfig
     ) {
     return new PlatformViewVideoPlayer(
         events,
@@ -64,9 +64,7 @@ public class PlatformViewVideoPlayer extends VideoPlayer {
                     ExoPlayer.Builder builder =
                             new ExoPlayer.Builder(context).setLoadControl(loadControl)
                                     .setMediaSourceFactory(asset.getMediaSourceFactory(context));
-          ExoPlayer.Builder builder =
-              new ExoPlayer.Builder(context)
-                  .setMediaSourceFactory(asset.getMediaSourceFactory(context));
+
           return builder.build();
         });
   }

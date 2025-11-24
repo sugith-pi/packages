@@ -82,7 +82,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, AndroidVideoPlayerApi {
   public long createForPlatformView(@NonNull CreationOptions options) {
     final VideoAsset videoAsset = videoAssetWithOptions(options);
 
-    final Messages.BufferConfigNative bufferConfig = options.getBufferConfig();
+    final BufferConfigNative bufferConfig = options.getBufferConfig();
 
     long id = nextPlayerIdentifier++;
     final String streamInstance = Long.toString(id);
@@ -103,7 +103,7 @@ public class VideoPlayerPlugin implements FlutterPlugin, AndroidVideoPlayerApi {
   public @NonNull TexturePlayerIds createForTextureView(@NonNull CreationOptions options) {
     final VideoAsset videoAsset = videoAssetWithOptions(options);
 
-    final Messages.BufferConfigNative bufferConfig = options.getBufferConfig();
+    final BufferConfigNative bufferConfig = options.getBufferConfig();
 
     long id = nextPlayerIdentifier++;
     final String streamInstance = Long.toString(id);
